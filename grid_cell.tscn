@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://8gqfpx4qnbtg"]
+
+[ext_resource type="Script" uid="uid://tejahljuwbw0" path="res://grid_cell.gd" id="1_024bi"]
+
+[node name="GridCell" type="Area2D"]
+script = ExtResource("1_024bi")
+borderWidth = 1
+
+[node name="Clickbox" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(16.4545, -9.5, 16.4545, 9.5, 1.16338e-15, 19, -16.4545, 9.5, -16.4545, -9.5, -3.49013e-15, -19)
+
+[node name="BorderColorPolygon" type="Polygon2D" parent="."]
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(17.3205, -10, 17.3205, 10, 1.22461e-15, 20, -17.3205, 10, -17.3205, -10, -3.67382e-15, -20)
+
+[node name="BgColorPolygon" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(16.4545, -9.5, 16.4545, 9.5, 1.16338e-15, 19, -16.4545, 9.5, -16.4545, -9.5, -3.49013e-15, -19)
