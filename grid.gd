@@ -13,6 +13,9 @@ var makeGridAction = refreshGrid
 var gridCellScene = preload("res://grid_cell.tscn")
 
 
+func _ready() -> void:
+	refreshGrid()
+
 func refreshGrid():
 	for c in $'.'.get_children():
 		c.free()
@@ -21,7 +24,7 @@ func refreshGrid():
 
 
 
-func makeGridFlatTop(): # Double height coords
+func makeGridFlatTop(): # Double height coords, built column by column ("odd-q" layout) 
 	for x in gridSize.x:
 		var column = Node2D.new()
 		$'.'.add_child(column)
@@ -40,14 +43,10 @@ func makeGridFlatTop(): # Double height coords
 			if x % 2 == 1: # odd rows
 				yCoord += 1 # with flat top, the odd rows are pushed down (double hieght)
 				yOffset_extra = y_distance / 2
-			#newCell.position = Vector2(x_offset, y_offset)
 			newCell.position = Vector2(x_offset, y_offset + yOffset_extra)
 			column.add_child(newCell)
 			newCell.set_owner($'.')
 			newCell.name = str(yCoord)
-# FLAT TOP:
-#the horizontal distance between adjacent hexagons centers is horiz = 3/4 * width = 3/2 * size. 
-#The vertical distance is vert = height = sqrt(3) * size = 2 * inradius
 
 
 func cartesianToDoubled(coords:Vector2, flatTop:bool=false)->Vector2: # flat top = double hieight
