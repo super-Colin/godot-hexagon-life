@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cnaqspjjpwcg1"]
+[gd_scene load_steps=3 format=3 uid="uid://cnaqspjjpwcg1"]
 
 [ext_resource type="PackedScene" uid="uid://b1k8gu3pct8fj" path="res://grid.tscn" id="1_80nbo"]
+[ext_resource type="Script" uid="uid://rn0dild5bfh3" path="res://game.gd" id="1_e2o6t"]
 
 [node name="Game" type="Control"]
 layout_mode = 3
@@ -10,12 +11,80 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+script = ExtResource("1_e2o6t")
 
 [node name="Node2D" type="Node2D" parent="."]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
 
 [node name="Grid" parent="HBoxContainer" instance=ExtResource("1_80nbo")]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="RandomizeButton" type="Button" parent="HBoxContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Randomize"
+
+[node name="AdvanceTickButton" type="Button" parent="HBoxContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Advance 1 Tick"
+
+[node name="PlayButton" type="Button" parent="HBoxContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Play"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SpeedHSlider" type="HSlider" parent="HBoxContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+min_value = 1.0
+max_value = 60.0
+value = 10.0
+rounded = true
+tick_count = 4
+
+[node name="SpeedLabel" type="Label" parent="HBoxContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "10 tick/s"
+vertical_alignment = 1
+
+[node name="Timer" type="Timer" parent="."]

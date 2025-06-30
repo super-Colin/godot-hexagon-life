@@ -1,6 +1,9 @@
 @tool
 extends Node2D
 
+var gridCellScene = preload("res://grid_cell.tscn")
+
+
 @export_tool_button("Make Grid")
 var makeGridAction = refreshGrid
 
@@ -10,11 +13,14 @@ var makeGridAction = refreshGrid
 #@export var cellSpacing:Vector2 = Vector2(2, 2)
 @export var cellSpacing:Vector2 = Vector2(0, 0)
 
-var gridCellScene = preload("res://grid_cell.tscn")
+var cellReferenceArray
+
+
 
 
 func _ready() -> void:
 	refreshGrid()
+	Globals.gridRef = $'.'
 
 func refreshGrid():
 	for c in $'.'.get_children():
@@ -24,12 +30,54 @@ func refreshGrid():
 
 
 
+
+
+
+func runRulesAlgo(rulesAlgo:Callable):
+	print("grid - running rules")
+	for c in cellReferenceArray:
+		var coord = cellReferenceArray[c].coord
+		var neighbors = getNeighbors(coord)
+		if coord == Vector2i(3, 3):
+			print("grid - ", coord, " live neighbors: ", Globals.countLiveNeighbors(neighbors))
+			print("grid - ", coord, " neighbors: ", neighbors)
+		cellReferenceArray[c].setNextState(rulesAlgo.call(cellReferenceArray[c], neighbors))
+
+
+
+
+
+func getNeighbors(centerCoord:Vector2i)->Array: # will not return non-existent cells, like past the edge
+	if not verifyDoubledCoord(centerCoord):
+		print("grid - get neighbors given invalid coord: ", centerCoord)
+		return []
+	var neighbors = []
+	# will always have bottom and right... unless against a wall...
+	neighbors.append(neighbor_centerBottom(centerCoord))
+	neighbors.append(neighbor_rightBottom(centerCoord))
+	if centerCoord.y > 0: # if not against the top wall
+		neighbors.append(neighbor_centerTop(centerCoord))
+		neighbors.append(neighbor_rightTop(centerCoord))
+	if centerCoord.x > 0: # if not against the left wall
+		neighbors.append(neighbor_leftBottom(centerCoord))
+		if centerCoord.y > 0: # if not against any walls
+			neighbors.append(neighbor_leftTop(centerCoord))
+	#filter out empty entries
+	neighbors = neighbors.filter(func(elem):return elem != null)
+	#print("grid - returning neighbors of ", centerCoord, ":", neighbors)
+	return neighbors
+
+
+
+#It has a constraint (col + row) mod 2 == 0
 func makeGridFlatTop(): # Double height coords, built column by column ("odd-q" layout) 
+	cellReferenceArray = {}
 	for x in gridSize.x:
 		var column = Node2D.new()
 		$'.'.add_child(column)
 		column.set_owner($'.')
 		column.name = str(x)
+		#cellReferenceArray.append([])
 		for y in gridSize.y:
 			var newCell = gridCellScene.instantiate()
 			newCell.flatTop = true
@@ -46,64 +94,46 @@ func makeGridFlatTop(): # Double height coords, built column by column ("odd-q" 
 			newCell.position = Vector2(x_offset, y_offset + yOffset_extra)
 			column.add_child(newCell)
 			newCell.set_owner($'.')
-			newCell.name = str(yCoord)
+			newCell.coord = Vector2(x, yCoord)
+			newCell.name = str(newCell.coord)
+			#cellReferenceArray[x].append(newCell)
+			cellReferenceArray[str(newCell.coord)] = newCell
+	print("grid - ref array is: ", cellReferenceArray)
 
 
-func cartesianToDoubled(coords:Vector2, flatTop:bool=false)->Vector2: # flat top = double hieight
-	
-	return Vector2()
 
-
-
-#func makeGrid():
-	#for y in gridSize.y:
-		#var row = Node2D.new()
-		#add_child(row)
-		#row.set_owner(self)
-		#row.name = str(y)
-		#for x in gridSize.x:
-			#var newCell = gridCellScene.instantiate()
+# these are all based on doubled hieght coords
+func neighbor_leftTop(centerCoord:Vector2i): 
+	if str(neighborCoord_leftTop(centerCoord)) in cellReferenceArray:
+		return cellReferenceArray[str(neighborCoord_leftTop(centerCoord))]
+func neighborCoord_leftTop(centerCoord:Vector2i): return Vector2i(centerCoord.x-1, centerCoord.y-1)
+func neighbor_centerTop(centerCoord:Vector2i):
+	if str(neighborCoord_centerTop(centerCoord)) in cellReferenceArray:
+		return cellReferenceArray[str(neighborCoord_centerTop(centerCoord))]
+func neighborCoord_centerTop(centerCoord:Vector2i): return Vector2i(centerCoord.x, centerCoord.y-2)
+func neighbor_rightTop(centerCoord:Vector2i): 
+	if str(neighborCoord_rightTop(centerCoord)) in cellReferenceArray:
+		return cellReferenceArray[str(neighborCoord_rightTop(centerCoord))]
+func neighborCoord_rightTop(centerCoord:Vector2i): return Vector2i(centerCoord.x+1, centerCoord.y-1)
 #
-			#var xOffset_extra = 0.0
-			#if int(y) % 2 == 1:
-				#xOffset_extra = cellDiameter * 0.5
+func neighbor_leftBottom(centerCoord:Vector2i):
+	if str(neighborCoord_leftBottom(centerCoord)) in cellReferenceArray:
+		return cellReferenceArray[str(neighborCoord_leftBottom(centerCoord))]
+func neighborCoord_leftBottom(centerCoord:Vector2i): return Vector2i(centerCoord.x-1, centerCoord.y+1)
+func neighbor_centerBottom(centerCoord:Vector2i):
+	if str(neighborCoord_centerBottom(centerCoord)) in cellReferenceArray:
+		return cellReferenceArray[str(neighborCoord_centerBottom(centerCoord))]
+func neighborCoord_centerBottom(centerCoord:Vector2i): return Vector2i(centerCoord.x, centerCoord.y+2)
+func neighbor_rightBottom(centerCoord:Vector2i):
+	if str(neighborCoord_rightBottom(centerCoord)) in cellReferenceArray:
+		return cellReferenceArray[str(neighborCoord_rightBottom(centerCoord))]
+func neighborCoord_rightBottom(centerCoord:Vector2i): return Vector2i(centerCoord.x+1, centerCoord.y+1)
 #
-			## Correct spacing
-			#var x_offset = x * (cellDiameter * 0.75) + xOffset_extra + (cellSpacing.x * x)
-			#var y_offset = y * cellDiameter + (cellSpacing.y * y)
-#
-			#newCell.position = Vector2(x_offset, y_offset)
-			#newCell.setSize(cellDiameter)
-			#row.add_child(newCell)
-			#newCell.set_owner(self)
 
-
-
-
-#func makeGrid(flatTop:bool=false):
-	#for x in gridSize.x:
-		#var column = Node2D.new()
-		#$'.'.add_child(column)
-		#column.set_owner($'.')
-		#column.name = str(x)
-		#for y in gridSize.y:
-			#var newCell = gridCellScene.instantiate()
-			#newCell.flatTop = flatTop
-			#newCell.create_hexagon_polygon(cellDiameter)
-			#var xOffset_extra = 0.0
-			#if int(y) % 2 == 1:
-				#xOffset_extra = cellDiameter / 1.4
-			#var xOffset = x * (cellDiameter * 1.4) + xOffset_extra + (cellSpacing.x * x)
-			#var yOffset = y * (cellDiameter / 2.6) + (cellSpacing.y * y)
-			 ##horiz = 3/4 * width = 3/2 * size. 
-			##The vertical distance is vert = height = sqrt(3) * size = 2 * inradius.
-			#
-			#newCell.position = Vector2(xOffset, yOffset)
-			#newCell.setSize(cellDiameter)
-			#column.add_child(newCell)
-			#newCell.set_owner($'.')
-			#newCell.name = str(x)+", "+str(y)
-
+func verifyDoubledCoord(coord:Vector2i)->bool:
+	if (coord.x + coord.y) % 2 == 0:
+		return true
+	return false
 
 
 
