@@ -27,6 +27,7 @@ var toggledOn:bool = false
 var coord:Vector2i
 var currentState:Globals.CellStates=Globals.CellStates.DEAD:
 	set(newVal):
+		if currentState == newVal: return
 		currentState = newVal
 		setColorWithState()
 var nextState:Globals.CellStates=Globals.CellStates.DEAD
@@ -35,13 +36,17 @@ var traits:Dictionary = {}
 
 
 func _ready() -> void:
+	if Engine.is_editor_hint():
+		return
 	$'.'.mouse_entered.connect($'.'.mouseEntered)
 	$'.'.mouse_exited.connect($'.'.mouseExited)
 	$'.'.changeBorderColor(defaultBorderColor)
 	$'.'.changeBgColor(defaultBgColor)
 	Globals.s_updateState.connect(func():currentState = nextState)
 
-func setSize(newSizeDiameter:int = defaultDiameter):
+func setSize(newSizeDiameter:int = defaultDiameter, newBorderWidth = defaultBorderWidth):
+	defaultDiameter = newSizeDiameter
+	defaultBorderWidth = newBorderWidth
 	var borderedHexagon = create_hexagon_polygon(newSizeDiameter - defaultBorderWidth*2)
 	var fullSizeHexagon = create_hexagon_polygon(newSizeDiameter)
 	$Clickbox.polygon = fullSizeHexagon
@@ -76,12 +81,12 @@ func mouseExited():
 func toSelectedColor():
 	$'.'.changeBorderColor(selectedBorderColor)
 	$'.'.changeBgColor(selectedBgColor)
-	$'.'.changeBorderWidth( (defaultBorderWidth * 1.3) + 5)
+	#$'.'.changeBorderWidth( (defaultBorderWidth * 1.3) + 5)
 
 func toCurrentColor():
 	$'.'.changeBorderColor(currentBorderColor)
 	$'.'.changeBgColor(currentBgColor)
-	$'.'.changeBorderWidth(defaultBorderWidth)
+	#$'.'.changeBorderWidth(defaultBorderWidth)
 
 
 func create_hexagon_polygon(diameter: float):
@@ -100,6 +105,7 @@ func create_hexagon_polygon(diameter: float):
 func _unhandled_input(event: InputEvent) -> void:
 	#if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 	if event is InputEventMouseButton and event.pressed and Input.is_action_pressed("MainClick"):
+	#if Input.is_action_pressed("MainClick"):
 	#if Input.is_action_just_pressed("MainClick"):
 	#if Input.is_action_just_released("MainClick"):
 		if hoveringOn:

@@ -34,13 +34,13 @@ func refreshGrid():
 
 
 func runRulesAlgo(rulesAlgo:Callable):
-	print("grid - running rules")
+	#print("grid - running rules")
 	for c in cellReferenceArray:
 		var coord = cellReferenceArray[c].coord
 		var neighbors = getNeighbors(coord)
-		if coord == Vector2i(3, 3):
-			print("grid - ", coord, " live neighbors: ", Globals.countLiveNeighbors(neighbors))
-			print("grid - ", coord, " neighbors: ", neighbors)
+		#if coord == Vector2i(3, 3):
+			#print("grid - ", coord, " live neighbors: ", Globals.countLiveNeighbors(neighbors))
+			#print("grid - ", coord, " neighbors: ", neighbors)
 		cellReferenceArray[c].setNextState(rulesAlgo.call(cellReferenceArray[c], neighbors))
 
 
@@ -48,20 +48,17 @@ func runRulesAlgo(rulesAlgo:Callable):
 
 
 func getNeighbors(centerCoord:Vector2i)->Array: # will not return non-existent cells, like past the edge
-	if not verifyDoubledCoord(centerCoord):
-		print("grid - get neighbors given invalid coord: ", centerCoord)
-		return []
-	var neighbors = []
-	# will always have bottom and right... unless against a wall...
-	neighbors.append(neighbor_centerBottom(centerCoord))
-	neighbors.append(neighbor_rightBottom(centerCoord))
-	if centerCoord.y > 0: # if not against the top wall
-		neighbors.append(neighbor_centerTop(centerCoord))
-		neighbors.append(neighbor_rightTop(centerCoord))
-	if centerCoord.x > 0: # if not against the left wall
-		neighbors.append(neighbor_leftBottom(centerCoord))
-		if centerCoord.y > 0: # if not against any walls
-			neighbors.append(neighbor_leftTop(centerCoord))
+	#if not verifyDoubledCoord(centerCoord):
+		#print("grid - get neighbors given invalid coord: ", centerCoord)
+		#return []
+	var neighbors = [
+		neighbor_centerBottom(centerCoord),
+		neighbor_rightBottom(centerCoord),
+		neighbor_centerTop(centerCoord),
+		neighbor_rightTop(centerCoord),
+		neighbor_leftBottom(centerCoord),
+		neighbor_leftTop(centerCoord),
+	]
 	#filter out empty entries
 	neighbors = neighbors.filter(func(elem):return elem != null)
 	#print("grid - returning neighbors of ", centerCoord, ":", neighbors)
@@ -72,6 +69,7 @@ func getNeighbors(centerCoord:Vector2i)->Array: # will not return non-existent c
 #It has a constraint (col + row) mod 2 == 0
 func makeGridFlatTop(): # Double height coords, built column by column ("odd-q" layout) 
 	cellReferenceArray = {}
+	print("grid - making grid with size: ", gridSize, " and cell diameter: ", cellDiameter)
 	for x in gridSize.x:
 		var column = Node2D.new()
 		$'.'.add_child(column)
@@ -81,7 +79,7 @@ func makeGridFlatTop(): # Double height coords, built column by column ("odd-q" 
 		for y in gridSize.y:
 			var newCell = gridCellScene.instantiate()
 			newCell.flatTop = true
-			newCell.setSize(cellDiameter)
+			newCell.setSize(cellDiameter, cellDiameter/15 + 1)
 			# Create position
 			var x_offset = x * (cellDiameter * 0.75)
 			var y_distance = sqrt(3) * (cellDiameter/2)
@@ -98,35 +96,41 @@ func makeGridFlatTop(): # Double height coords, built column by column ("odd-q" 
 			newCell.name = str(newCell.coord)
 			#cellReferenceArray[x].append(newCell)
 			cellReferenceArray[str(newCell.coord)] = newCell
-	print("grid - ref array is: ", cellReferenceArray)
+	#print("grid - ref array is: ", cellReferenceArray)
 
 
 
 # these are all based on doubled hieght coords
 func neighbor_leftTop(centerCoord:Vector2i): 
-	if str(neighborCoord_leftTop(centerCoord)) in cellReferenceArray:
-		return cellReferenceArray[str(neighborCoord_leftTop(centerCoord))]
+	var key = str(neighborCoord_leftTop(centerCoord))
+	if key in cellReferenceArray:
+		return cellReferenceArray[key]
 func neighborCoord_leftTop(centerCoord:Vector2i): return Vector2i(centerCoord.x-1, centerCoord.y-1)
 func neighbor_centerTop(centerCoord:Vector2i):
-	if str(neighborCoord_centerTop(centerCoord)) in cellReferenceArray:
-		return cellReferenceArray[str(neighborCoord_centerTop(centerCoord))]
+	var key = str(neighborCoord_centerTop(centerCoord))
+	if key in cellReferenceArray:
+		return cellReferenceArray[key]
 func neighborCoord_centerTop(centerCoord:Vector2i): return Vector2i(centerCoord.x, centerCoord.y-2)
 func neighbor_rightTop(centerCoord:Vector2i): 
-	if str(neighborCoord_rightTop(centerCoord)) in cellReferenceArray:
-		return cellReferenceArray[str(neighborCoord_rightTop(centerCoord))]
+	var key = str(neighborCoord_rightTop(centerCoord))
+	if key in cellReferenceArray:
+		return cellReferenceArray[key]
 func neighborCoord_rightTop(centerCoord:Vector2i): return Vector2i(centerCoord.x+1, centerCoord.y-1)
 #
 func neighbor_leftBottom(centerCoord:Vector2i):
-	if str(neighborCoord_leftBottom(centerCoord)) in cellReferenceArray:
-		return cellReferenceArray[str(neighborCoord_leftBottom(centerCoord))]
+	var key = str(neighborCoord_leftBottom(centerCoord))
+	if key in cellReferenceArray:
+		return cellReferenceArray[key]
 func neighborCoord_leftBottom(centerCoord:Vector2i): return Vector2i(centerCoord.x-1, centerCoord.y+1)
 func neighbor_centerBottom(centerCoord:Vector2i):
-	if str(neighborCoord_centerBottom(centerCoord)) in cellReferenceArray:
-		return cellReferenceArray[str(neighborCoord_centerBottom(centerCoord))]
+	var key = str(neighborCoord_centerBottom(centerCoord))
+	if key in cellReferenceArray:
+		return cellReferenceArray[key]
 func neighborCoord_centerBottom(centerCoord:Vector2i): return Vector2i(centerCoord.x, centerCoord.y+2)
 func neighbor_rightBottom(centerCoord:Vector2i):
-	if str(neighborCoord_rightBottom(centerCoord)) in cellReferenceArray:
-		return cellReferenceArray[str(neighborCoord_rightBottom(centerCoord))]
+	var key = str(neighborCoord_rightBottom(centerCoord))
+	if key in cellReferenceArray:
+		return cellReferenceArray[key]
 func neighborCoord_rightBottom(centerCoord:Vector2i): return Vector2i(centerCoord.x+1, centerCoord.y+1)
 #
 

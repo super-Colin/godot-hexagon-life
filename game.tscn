@@ -13,8 +13,6 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_e2o6t")
 
-[node name="Node2D" type="Node2D" parent="."]
-
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -26,51 +24,59 @@ alignment = 1
 
 [node name="Grid" parent="HBoxContainer" instance=ExtResource("1_80nbo")]
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
-layout_mode = 2
+[node name="Camera2D" type="Camera2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(965, 548)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
+offset_left = 1600.0
+offset_right = 1920.0
+offset_bottom = 1080.0
 size_flags_horizontal = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(200, 50)
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HBoxContainer"]
+custom_minimum_size = Vector2(300, 50)
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 
-[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer"]
-custom_minimum_size = Vector2(200, 50)
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer"]
+custom_minimum_size = Vector2(300, 50)
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 8
 
-[node name="RandomizeButton" type="Button" parent="HBoxContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="RandomizeButton" type="Button" parent="CanvasLayer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Randomize"
 
-[node name="AdvanceTickButton" type="Button" parent="HBoxContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="AdvanceTickButton" type="Button" parent="CanvasLayer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Advance 1 Tick"
 
-[node name="PlayButton" type="Button" parent="HBoxContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="PlayButton" type="Button" parent="CanvasLayer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Play"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="SpeedHSlider" type="HSlider" parent="HBoxContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="SpeedHSlider" type="HSlider" parent="CanvasLayer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -81,10 +87,13 @@ value = 10.0
 rounded = true
 tick_count = 4
 
-[node name="SpeedLabel" type="Label" parent="HBoxContainer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="SpeedLabel" type="Label" parent="CanvasLayer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "10 tick/s"
 vertical_alignment = 1
 
-[node name="Timer" type="Timer" parent="."]
+[node name="ActualSpeedLabel" type="Label" parent="CanvasLayer/HBoxContainer/VBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Actual Ticks/s: "

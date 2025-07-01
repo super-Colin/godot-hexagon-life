@@ -5,19 +5,31 @@ signal s_updateState
 
 
 var gridRef
-
+var advancingTick:bool = false
 
 
 
 func advanceTick():
 	if "runRulesAlgo" in gridRef:
+		if not Globals.advancingTick:
+			Globals.advancingTick = true
+		else:
+			print("globals - skipping tick advance call")
+			return
 		gridRef.runRulesAlgo(rulesAlgo_basic)
 		s_updateState.emit()
+		advancingTick = false
 
 func randomizeGrid():
 	if "runRulesAlgo" in gridRef:
+		if not Globals.advancingTick:
+			Globals.advancingTick = true
+		else:
+			print("globals - skipping randomize call")
+			return
 		gridRef.runRulesAlgo(rulesAlgo_randomize)
 		s_updateState.emit()
+		advancingTick = false
 
 
 enum CellStates {DEAD=0, ALIVE=1,}

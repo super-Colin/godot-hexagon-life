@@ -12,6 +12,7 @@ defaultSelectedBgColor = null
 polygon = PackedVector2Array(39.8372, -23, 39.8372, 23, 2.81659e-15, 46, -39.8372, 23, -39.8372, -23, -8.44978e-15, -46)
 
 [node name="BorderColorPolygon" type="Polygon2D" parent="."]
+visible = false
 color = Color(0.501961, 0.501961, 0.501961, 1)
 polygon = PackedVector2Array(43.3013, -25, 43.3013, 25, 3.06152e-15, 50, -43.3013, 25, -43.3013, -25, -9.18455e-15, -50)
 
