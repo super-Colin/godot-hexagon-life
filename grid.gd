@@ -33,7 +33,7 @@ func refreshGrid():
 
 
 
-func runRulesAlgo(rulesAlgo:Callable):
+func runRulesAlgo(rulesAlgo:Callable, extraArgs:Dictionary={}):
 	#print("grid - running rules")
 	for c in cellReferenceArray:
 		var coord = cellReferenceArray[c].coord
@@ -41,7 +41,8 @@ func runRulesAlgo(rulesAlgo:Callable):
 		#if coord == Vector2i(3, 3):
 			#print("grid - ", coord, " live neighbors: ", Globals.countLiveNeighbors(neighbors))
 			#print("grid - ", coord, " neighbors: ", neighbors)
-		cellReferenceArray[c].setNextState(rulesAlgo.call(cellReferenceArray[c], neighbors))
+		var stateResult = rulesAlgo.call(cellReferenceArray[c], neighbors, extraArgs)
+		cellReferenceArray[c].setNextState(stateResult)
 
 
 
@@ -97,7 +98,6 @@ func makeGridFlatTop(): # Double height coords, built column by column ("odd-q" 
 			#cellReferenceArray[x].append(newCell)
 			cellReferenceArray[str(newCell.coord)] = newCell
 	#print("grid - ref array is: ", cellReferenceArray)
-
 
 
 # these are all based on doubled hieght coords

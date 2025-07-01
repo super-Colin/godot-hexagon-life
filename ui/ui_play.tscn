@@ -1,0 +1,52 @@
+[gd_scene load_steps=2 format=3 uid="uid://dm36il5bvf7j5"]
+
+[ext_resource type="Script" uid="uid://dage6k472j8bp" path="res://ui/ui_play.gd" id="1_ytoth"]
+
+[node name="Playing" type="VBoxContainer"]
+custom_minimum_size = Vector2(300, 50)
+size_flags_horizontal = 8
+size_flags_vertical = 8
+script = ExtResource("1_ytoth")
+
+[node name="RandomizeButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "Randomize"
+
+[node name="AdvanceTickButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "Advance 1 Tick"
+
+[node name="PlayButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "Play"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="SpeedHSlider" type="HSlider" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+min_value = 1.0
+max_value = 60.0
+value = 10.0
+rounded = true
+tick_count = 4
+
+[node name="SpeedLabel" type="Label" parent="HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "10 tick/s"
+vertical_alignment = 1
+
+[node name="ActualSpeedLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Actual Ticks/s: 60.0"

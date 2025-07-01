@@ -22,6 +22,7 @@ var selectedBorderColor = defaultSelectedBorderColor
 var selectedBgColor = defaultSelectedBgColor
 var hoveringOn:bool = false
 var toggledOn:bool = false
+var age = 0
 
 # State vars
 var coord:Vector2i
@@ -72,6 +73,8 @@ func setColorWithState():
 
 func mouseEntered():
 	hoveringOn = true
+	if Input.is_action_pressed("MainClick"):
+		clickedOn_main()
 	#toSelectedColor()
 
 func mouseExited():
@@ -132,11 +135,5 @@ func clickedOn_main():
 	else:
 		currentState = Globals.CellStates.ALIVE
 	setColorWithState()
-	#if toggledOn: 
-		#currentBgColor = Color.DARK_MAGENTA
-		#selectedBgColor = Color.LIGHT_SALMON
-	#else:
-		#currentBgColor = defaultBgColor
-		#selectedBgColor = defaultSelectedBgColor
 	toCurrentColor()
 #

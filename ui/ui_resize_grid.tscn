@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://nubxwwy4q17e"]
+
+[node name="ResizeGrid" type="VBoxContainer"]
+offset_right = 213.0
+offset_bottom = 43.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="XLabel" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "X:"
+
+[node name="XSpinBox" type="SpinBox" parent="HBoxContainer"]
+layout_mode = 2
+min_value = 5.0
+value = 10.0
+rounded = true
+allow_greater = true
+
+[node name="YLabel" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Y:"
+
+[node name="YSpinBox" type="SpinBox" parent="HBoxContainer"]
+layout_mode = 2
+min_value = 5.0
+value = 10.0
+rounded = true
+allow_greater = true
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+focus_mode = 0
+text = "Remake Grid"
