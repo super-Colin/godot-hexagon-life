@@ -16,13 +16,14 @@ var makeHexagonAction = setSize
 @export var defaultSelectedBorderColor:Color = Color.BLACK
 @export var defaultSelectedBgColor:Color = Color.ORANGE
 
-var currentBorderColor = defaultBorderColor
-var currentBgColor = defaultBgColor
-var selectedBorderColor = defaultSelectedBorderColor
-var selectedBgColor = defaultSelectedBgColor
+var currentBorderColor:Color = defaultBorderColor
+var currentBgColor:Color = defaultBgColor
+var selectedBorderColor:Color = defaultSelectedBorderColor
+var selectedBgColor:Color = defaultSelectedBgColor
 var hoveringOn:bool = false
 var toggledOn:bool = false
-var age = 0
+var age:int = 0
+var neighborRefs:Array = []
 
 # State vars
 var coord:Vector2i

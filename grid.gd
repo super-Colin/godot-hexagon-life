@@ -37,7 +37,11 @@ func runRulesAlgo(rulesAlgo:Callable, extraArgs:Dictionary={}):
 	#print("grid - running rules")
 	for c in cellReferenceArray:
 		var coord = cellReferenceArray[c].coord
-		var neighbors = getNeighbors(coord)
+		var neighbors
+		#if "neighborRefs" in cellReferenceArray[c]:
+		if cellReferenceArray[c].neighborRefs == []:
+			cellReferenceArray[c].neighborRefs = getNeighbors(coord)
+		neighbors = cellReferenceArray[c].neighborRefs 
 		#if coord == Vector2i(3, 3):
 			#print("grid - ", coord, " live neighbors: ", Globals.countLiveNeighbors(neighbors))
 			#print("grid - ", coord, " neighbors: ", neighbors)
