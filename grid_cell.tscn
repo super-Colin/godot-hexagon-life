@@ -5,8 +5,6 @@
 [node name="GridCell" type="Area2D"]
 script = ExtResource("1_024bi")
 defaultBorderWidth = 4
-defaultSelectedBorderColor = null
-defaultSelectedBgColor = null
 
 [node name="Clickbox" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(39.8372, -23, 39.8372, 23, 2.81659e-15, 46, -39.8372, 23, -39.8372, -23, -8.44978e-15, -46)

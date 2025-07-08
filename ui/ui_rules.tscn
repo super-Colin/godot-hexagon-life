@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=3 uid="uid://ca1s1d5h7bgf8"]
+
+[ext_resource type="Script" uid="uid://dhi3m8wqjav1h" path="res://ui/ui_rules.gd" id="1_f4kjs"]
+
+[node name="Rules" type="VBoxContainer"]
+custom_minimum_size = Vector2(300, 50)
+size_flags_horizontal = 8
+size_flags_vertical = 8
+script = ExtResource("1_f4kjs")
+
+[node name="ToggleAgeButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 0
+text = "Randomize"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="ToggleMaxAgeButton" type="CheckBox" parent="HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Die From Age"
+expand_icon = true
+
+[node name="MaxAgeSpinBox" type="SpinBox" parent="HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 10
+min_value = 8.0
+step = 4.0
+value = 8.0
+rounded = true
+allow_greater = true

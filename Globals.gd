@@ -4,17 +4,22 @@ extends Node
 signal s_updateState
 signal s_playingToggled
 
-
+# Globals references
 var gridRef:Node
-var advancingTick:bool = false
+var advancingTick:bool = false # prevent running the process again before it finishes
 
+# Simulation
 var playing:bool = false
-var timer:float = 0.0
-var timerTarget:float = 0.1
+var timer:float = 0.0 # for targeting a certain FPS
+var timerTarget:float = 0.1 # for targeting a certain FPS
 
+var defaultRule:Callable = Rules.conway_basic
 var currentRule:Callable = Rules.conway_basic
 var currentExtraArgs:Dictionary = {"maxAge":8}
 
+# Stats
+var population = 0
+var generation = 0
 
 func advanceTick():
 	if "runRulesAlgo" in gridRef:
@@ -23,10 +28,12 @@ func advanceTick():
 		else:
 			print("globals - skipping tick advance call")
 			return
+		Globals.population = 0
 		gridRef.runRulesAlgo(currentRule, currentExtraArgs)
 		#gridRef.runRulesAlgo(conway_age, {"maxAge":8})
-		s_updateState.emit()
+		Globals.generation +=1
 		advancingTick = false
+		s_updateState.emit()
 
 func randomizeGrid():
 	if "runRulesAlgo" in gridRef:
@@ -38,6 +45,7 @@ func randomizeGrid():
 		gridRef.runRulesAlgo(Rules.randomize_coinFlip)
 		s_updateState.emit()
 		advancingTick = false
+		generation = 1
 
 
 enum CellStates {DEAD=0, ALIVE=1,}

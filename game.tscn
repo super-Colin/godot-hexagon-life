@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://b1k8gu3pct8fj" path="res://grid.tscn" id="1_80nbo"]
 [ext_resource type="Script" uid="uid://rn0dild5bfh3" path="res://game.gd" id="1_e2o6t"]
-[ext_resource type="PackedScene" uid="uid://dm5u1udjxdesx" path="res://ui/ui_simulation_settings.tscn" id="4_fc0e3"]
+[ext_resource type="PackedScene" uid="uid://dm5u1udjxdesx" path="res://ui/ui_simulation_hud.tscn" id="4_fc0e3"]
 
 [node name="Game" type="Control"]
 layout_mode = 3
@@ -28,7 +28,8 @@ alignment = 1
 
 [node name="Camera2D" type="Camera2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(960, 540)
+position = Vector2(2931, 2126)
+zoom = Vector2(0.25, 0.25)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -52,4 +53,3 @@ alignment = 2
 
 [node name="SimulationSettings" parent="CanvasLayer/HBoxContainer/VBoxContainer" instance=ExtResource("4_fc0e3")]
 layout_mode = 2
-size_flags_vertical = 1

@@ -14,11 +14,13 @@ var makeGridAction = refreshGrid
 @export var cellSpacing:Vector2 = Vector2(0, 0)
 
 var cellReferenceArray
-
+var needToRefreshCellNeighbors = true
 
 
 
 func _ready() -> void:
+	if Engine.is_editor_hint():
+		return
 	refreshGrid()
 	Globals.gridRef = $'.'
 
@@ -32,21 +34,19 @@ func refreshGrid():
 
 
 
-
 func runRulesAlgo(rulesAlgo:Callable, extraArgs:Dictionary={}):
 	#print("grid - running rules")
 	for c in cellReferenceArray:
 		var coord = cellReferenceArray[c].coord
 		var neighbors
 		#if "neighborRefs" in cellReferenceArray[c]:
-		if cellReferenceArray[c].neighborRefs == []:
+		#if needToRefreshCellNeighbors or cellReferenceArray[c].neighborRefs == []:
+		if needToRefreshCellNeighbors:
 			cellReferenceArray[c].neighborRefs = getNeighbors(coord)
 		neighbors = cellReferenceArray[c].neighborRefs 
-		#if coord == Vector2i(3, 3):
-			#print("grid - ", coord, " live neighbors: ", Globals.countLiveNeighbors(neighbors))
-			#print("grid - ", coord, " neighbors: ", neighbors)
 		var stateResult = rulesAlgo.call(cellReferenceArray[c], neighbors, extraArgs)
 		cellReferenceArray[c].setNextState(stateResult)
+	needToRefreshCellNeighbors = false
 
 
 
@@ -102,6 +102,7 @@ func makeGridFlatTop(): # Double height coords, built column by column ("odd-q" 
 			#cellReferenceArray[x].append(newCell)
 			cellReferenceArray[str(newCell.coord)] = newCell
 	#print("grid - ref array is: ", cellReferenceArray)
+	needToRefreshCellNeighbors = true
 
 
 # these are all based on doubled hieght coords

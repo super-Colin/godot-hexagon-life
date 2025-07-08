@@ -1,0 +1,73 @@
+[gd_scene load_steps=6 format=3 uid="uid://dm5u1udjxdesx"]
+
+[ext_resource type="PackedScene" uid="uid://dm36il5bvf7j5" path="res://ui/ui_play.tscn" id="1_t4yif"]
+[ext_resource type="PackedScene" uid="uid://b23q43i7ufic3" path="res://ui/ui_stats.tscn" id="1_vekuc"]
+[ext_resource type="PackedScene" uid="uid://nubxwwy4q17e" path="res://ui/ui_resize_grid.tscn" id="2_kq0ou"]
+[ext_resource type="PackedScene" uid="uid://ca1s1d5h7bgf8" path="res://ui/ui_rules.tscn" id="4_tdoon"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vekuc"]
+bg_color = Color(0, 0, 0, 0.752941)
+
+[node name="PanelContainer" type="PanelContainer"]
+offset_right = 320.0
+offset_bottom = 265.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_vekuc")
+
+[node name="SimulationHud" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Margin" type="MarginContainer" parent="SimulationHud"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+metadata/_tab_index = 1
+
+[node name="Stats" parent="SimulationHud/Margin" instance=ExtResource("1_vekuc")]
+layout_mode = 2
+
+[node name="TabContainer" type="TabContainer" parent="SimulationHud"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+current_tab = 2
+
+[node name="Play" type="MarginContainer" parent="SimulationHud/TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+metadata/_tab_index = 0
+
+[node name="Playing" parent="SimulationHud/TabContainer/Play" instance=ExtResource("1_t4yif")]
+custom_minimum_size = Vector2(300, 160)
+layout_mode = 2
+
+[node name="Resize" type="MarginContainer" parent="SimulationHud/TabContainer"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+metadata/_tab_index = 1
+
+[node name="ResizeGrid" parent="SimulationHud/TabContainer/Resize" instance=ExtResource("2_kq0ou")]
+custom_minimum_size = Vector2(300, 160)
+layout_mode = 2
+
+[node name="Rules" type="MarginContainer" parent="SimulationHud/TabContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+metadata/_tab_index = 2
+
+[node name="Rules" parent="SimulationHud/TabContainer/Rules" instance=ExtResource("4_tdoon")]
+layout_mode = 2
+size_flags_vertical = 0
