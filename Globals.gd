@@ -15,11 +15,16 @@ var timerTarget:float = 0.1 # for targeting a certain FPS
 
 var defaultRule:Callable = Rules.conway_basic
 var currentRule:Callable = Rules.conway_basic
-var currentExtraArgs:Dictionary = {"maxAge":8}
+#var currentExtraArgs:Dictionary = {"maxAge":12, "rainbowAgeAmount":8}
+var currentExtraArgs:Dictionary = {}
+
+# Options
+var rainbowAging:bool = false
+var aging:bool = false
 
 # Stats
 var population = 0
-var generation = 0
+var generation = 1
 
 func advanceTick():
 	if "runRulesAlgo" in gridRef:
@@ -42,10 +47,11 @@ func randomizeGrid():
 		else:
 			print("globals - skipping randomize call")
 			return
+		Globals.population = 0
 		gridRef.runRulesAlgo(Rules.randomize_coinFlip)
-		s_updateState.emit()
 		advancingTick = false
 		generation = 1
+		s_updateState.emit()
 
 
 enum CellStates {DEAD=0, ALIVE=1,}

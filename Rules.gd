@@ -28,10 +28,8 @@ func conway_age(cell, cellNeighbors, extraArgs:Dictionary={})->Globals.CellState
 	if "maxAge" in extraArgs:
 		maxAge = extraArgs.maxAge
 	if cell.age > maxAge:
-		cell.age = 0
 		return Globals.CellStates.DEAD
 	if conway_basic(cell, cellNeighbors, extraArgs) == Globals.CellStates.DEAD:
-		cell.age = 0
 		return Globals.CellStates.DEAD
 	cell.age += 1
 	Globals.population +=1 # reset to 0 each cycle

@@ -22,14 +22,19 @@ var selectedBorderColor:Color = defaultSelectedBorderColor
 var selectedBgColor:Color = defaultSelectedBgColor
 var hoveringOn:bool = false
 var toggledOn:bool = false
-var age:int = 0
+var age:int = 0:
+	set(newVal):
+		age = newVal
+		toCurrentColor()
 var neighborRefs:Array = []
+
 
 # State vars
 var coord:Vector2i
 var currentState:Globals.CellStates=Globals.CellStates.DEAD:
 	set(newVal):
 		if currentState == newVal: return
+		if currentState == Globals.CellStates.DEAD: age = 0
 		currentState = newVal
 		setColorWithState()
 var nextState:Globals.CellStates=Globals.CellStates.DEAD
@@ -88,9 +93,27 @@ func toSelectedColor():
 	#$'.'.changeBorderWidth( (defaultBorderWidth * 1.3) + 5)
 
 func toCurrentColor():
+	if Globals.aging:
+		$'.'.changeBgColor(interpolateColorWithAge())
+	else:
+		$'.'.changeBgColor(currentBgColor)
 	$'.'.changeBorderColor(currentBorderColor)
-	$'.'.changeBgColor(currentBgColor)
 	#$'.'.changeBorderWidth(defaultBorderWidth)
+
+
+func interpolateColorWithAge():
+	var lerpWeight
+	if Globals.rainbowAging: # Already know we are using age in this function
+		var newColor = currentBgColor
+		#newColor.h += currentBgColor.h * age
+		newColor.h += (Globals.currentExtraArgs["rainbowAgeAmount"]/100) * age
+		return newColor
+	else:
+		lerpWeight = (1.0 / Globals.currentExtraArgs["maxAge"]) * float(age)
+	#print("cell - lerpWeight is: ", lerpWeight, ", age is: ", age, ", max age is: ", Globals.currentExtraArgs["maxAge"], ", ", (1.0 / Globals.currentExtraArgs["maxAge"]))
+	return currentBgColor.lerp(defaultBgColor, lerpWeight)
+
+
 
 
 func create_hexagon_polygon(diameter: float):
