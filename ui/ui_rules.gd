@@ -4,7 +4,6 @@ extends VBoxContainer
 
 
 
-
 func _ready() -> void:
 	Globals.currentExtraArgs["maxAge"] = %MaxAgeSpinBox.value
 	%ToggleMaxAgeButton.toggled.connect(toggleAgeDeath)
@@ -30,3 +29,11 @@ func updateRainbowAmount(newVal):
 
 func toggleRainbowAging(toggledOn):
 	Globals.rainbowAging = toggledOn
+
+
+
+
+
+
+
+#

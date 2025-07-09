@@ -69,5 +69,6 @@ theme_override_constants/margin_bottom = 10
 metadata/_tab_index = 2
 
 [node name="Rules" parent="SimulationHud/TabContainer/Rules" instance=ExtResource("4_tdoon")]
+custom_minimum_size = Vector2(300, 160)
 layout_mode = 2
 size_flags_vertical = 0

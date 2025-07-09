@@ -29,7 +29,7 @@ alignment = 1
 [node name="Camera2D" type="Camera2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(2931, 2126)
-zoom = Vector2(0.25, 0.25)
+zoom = Vector2(0.2, 0.2)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
